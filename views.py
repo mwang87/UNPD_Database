@@ -10,6 +10,9 @@ import urllib
 def querypage():
     return render_template("query.html")
 
+@app.route('/about', methods=['GET'])
+def querypage():
+    return render_template("about.html")
 
 MAX_DB_QUERY_RESULT = 1000
 @app.route('/results', methods=['GET'])
@@ -50,7 +53,5 @@ def resultspage():
     for entry in all_entries_list:
         entry["structurelink"] = "http://unpd.mingxunwang.com:5000/smilesstructure?inchi=%s" % (urllib.quote_plus(entry["inchi"]))
         entry["pubchemlink"] = "https://pubchem.ncbi.nlm.nih.gov/compound/" + (urllib.quote_plus(entry["inchik"]))
-
-
 
     return json.dumps(all_entries_list)

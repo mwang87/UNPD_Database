@@ -23,7 +23,6 @@
           <a class="nav-link" href="https://bix-lab.ucsd.edu/display/Public/GNPS+Documentation+Page">Documentation</a>
         </li>
       </ul>
-
     </nav>
 
     <div id="app-4" class="col-md-8 justify-content-center align-items-center">
@@ -33,18 +32,19 @@
         <table class="table table-sm table-striped">
             <thead>
                   <tr>
-                    <th>Accession</th>
+                    <th>UNPD Accession</th>
                     <th>Exact Mass</th>
-                    <th>inchi</th>
+                    <th>Common Name</th>
+                    <th>Formula</th>
                     <th>structure</th>
                   </tr>
             </thead>
             <tbody>
-                <!-- <attributeterm-viewer :attributeterm=attributeterm.attributeterm :countfiles=attributeterm.countfiles :attributename=attributeterm.attributename v-on:update-attributeterm="updateAttributeTermSelection"></attributeterm-viewer> -->
                 <tr v-for="result in unpdresults">
-                    <td>{{result.accession}}</td>
+                    <td>{{result.unpd_accession}}</td>
                     <td>{{result.exactmass}}</td>
-                    <td>{{result.inchi}}</td>
+                    <td>{{result.common_name}}</td>
+                    <td>{{result.molecular_formula}}</td>
                     <td>
                         <inchi-viewer :structurelink=result.structurelink></attributeterm-viewer>
                     </td>
@@ -72,13 +72,18 @@
                         }(this),
                         data: {
                             exactmass: $("#exactmass").val(),
-                            toleranceppm: $("#toleranceppm").val()
+                            toleranceppm: $("#toleranceppm").val(),
+                            common_name: $("#common_name").val(),
+                            molecular_formula: $("#molecular_formula").val()
                         },
                         dataType: "json"
                     });
                 }
             },
-            template: '<div>Exact Mass <input id="exactmass" type="float" name="exactmass"><br>PPM Tolerance <input id="toleranceppm" type="float" name="toleranceppm"><br><button  v-bind:class=classSelection v-on:click="clickMe()">Query</button></div>'
+            template: '<div>Exact Mass <input id="exactmass" type="float" name="exactmass">  PPM Tolerance <input id="toleranceppm" type="float" name="toleranceppm"><br>\
+            Common Name <input id="common_name" type="string" name="common_name"> <br>\
+            Formula <input id="molecular_formula" type="string" name="molecular_formula"> <br>\
+            <button  v-bind:class=classSelection v-on:click="clickMe()">Query</button></div>'
         })
 
         Vue.component('inchi-viewer', {

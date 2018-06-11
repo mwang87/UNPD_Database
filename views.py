@@ -3,7 +3,6 @@ from flask import abort, jsonify, render_template, request, redirect, url_for
 
 from app import app
 from models import *
-from urllib.parse import urlencode, quote_plus
 import json
 
 @app.route('/', methods=['GET'])
@@ -18,14 +17,33 @@ def homepage():
 def querypage():
     return render_template("query.html")
 
+
+MAX_DB_QUERY_RESULT = 1000
 @app.route('/results', methods=['GET'])
 def resultspage():
-    exactmass = float(request.args["exactmass"])
-    ppm_tolerance = float(request.args["toleranceppm"])
+    print(request.args)
+    db_query = UNPDEntry.select()
+    try:
+        exactmass = float(request.args["exactmass"])
+        ppm_tolerance = float(request.args["toleranceppm"])
+        mass_tolerance = exactmass * ppm_tolerance / 1000000
+        db_query = db_query.where( UNPDEntry.exactmass.between(exactmass - mass_tolerance, exactmass + mass_tolerance) )
+    except:
+        print("No ppm query")
 
-    mass_tolerance = exactmass * ppm_tolerance / 1000000
-    results = UNPDEntry.select().where(UNPDEntry.exactmass.between(exactmass - mass_tolerance, exactmass + mass_tolerance))
-    all_entries_list = [entry.getDict() for entry in results]
+    common_name = request.args["common_name"]
+    if len(common_name) > 0:
+        db_query = db_query.where(UNPDEntry.common_name.contains(common_name) )
+
+    molecular_formula = request.args["molecular_formula"]
+    if len(molecular_formula) > 0:
+        db_query = db_query.where(UNPDEntry.molecular_formula == molecular_formula )
+
+    if len(db_query) > MAX_DB_QUERY_RESULT:
+        db_query = db_query[:1000]
+
+
+    all_entries_list = [entry.getDict() for entry in db_query]
 
     for entry in all_entries_list:
         #payload = {'inchi':entry["inchi"].encode("ascii", "ignore")}

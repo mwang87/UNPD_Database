@@ -2,6 +2,17 @@
 <html>
 
 <head>
+    <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=UA-15507025-5"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'UA-15507025-5');
+    </script>
+
+
     <title>UNPD Query Interface</title>
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
@@ -30,7 +41,9 @@
 
     <div id="app-4" class="col-md-8 justify-content-center align-items-center">
         <h1>About</h1>
-        This is a web interface to query the Universal Natural Products Database (UNPD) originally obtained from http://pkuxxj.pku.edu.cn/UNPD. The UNPD structures are freely available and the source code of this webserver are open source under the BSD license. Use it as you please!
+        This is a web interface to query the Universal Natural Products Database (UNPD) originally obtained from http://pkuxxj.pku.edu.cn/UNPD. As the original resource was no longer available, we figured it would be useful to host the data online again. We obtained the data from Pierre Marie Allard's (http://oolonek.github.io/ISDB/).
+
+        The UNPD structures are freely available and the source code of this webserver are open source under the BSD license. Use it as you please!
     </div>
     </script>
 </body>

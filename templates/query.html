@@ -36,6 +36,7 @@
                     <th>Exact Mass</th>
                     <th>Common Name</th>
                     <th>Formula</th>
+                    <th>InChI Key</th>
                     <th>structure</th>
                   </tr>
             </thead>
@@ -46,7 +47,10 @@
                     <td>{{result.common_name}}</td>
                     <td>{{result.molecular_formula}}</td>
                     <td>
-                        <inchi-viewer :structurelink=result.structurelink></attributeterm-viewer>
+                        <a :href=result.pubchemlink>Pubchem</a>
+                    </td>
+                    <td>
+                        <img :src=result.structurelink></img>
                     </td>
                 </tr>
             </tbody>
@@ -84,18 +88,6 @@
             Common Name <input id="common_name" type="string" name="common_name"> <br>\
             Formula <input id="molecular_formula" type="string" name="molecular_formula"> <br>\
             <button  v-bind:class=classSelection v-on:click="clickMe()">Query</button></div>'
-        })
-
-        Vue.component('inchi-viewer', {
-            props: ['structurelink'],
-            data: function() {
-                return {
-                    urlPath: this.$props["structurelink"]
-                }
-            },
-            methods: {
-            },
-            template: '<img :src=structurelink ></img>'
         })
 
         var app4 = new Vue({

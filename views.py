@@ -49,6 +49,7 @@ def resultspage():
 
     for entry in all_entries_list:
         entry["structurelink"] = "http://unpd.mingxunwang.com:5000/smilesstructure?inchi=%s" % (urllib.quote_plus(entry["inchi"]))
+        entry["pubchemlink"] = "https://pubchem.ncbi.nlm.nih.gov/compound/" + (urllib.quote_plus(entry["inchik"]))
 
 
 

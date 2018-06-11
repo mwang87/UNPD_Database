@@ -11,7 +11,7 @@ def querypage():
     return render_template("query.html")
 
 @app.route('/about', methods=['GET'])
-def querypage():
+def aboutpage():
     return render_template("about.html")
 
 MAX_DB_QUERY_RESULT = 1000

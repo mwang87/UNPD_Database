@@ -29,12 +29,14 @@
     <div id="app-4" class="col-md-8 justify-content-center align-items-center">
         <h1>UNPD Query Interface</h1>
         <query-results></query-results>
+        <div>{{unpdresults.length}}</div>
         <table class="table table-sm table-striped">
             <thead>
                   <tr>
                     <th>Accession</th>
                     <th>Exact Mass</th>
                     <th>inchi</th>
+                    <th>structure</th>
                   </tr>
             </thead>
             <tbody>
@@ -43,6 +45,9 @@
                     <td>{{result.accession}}</td>
                     <td>{{result.exactmass}}</td>
                     <td>{{result.inchi}}</td>
+                    <td>
+                        <inchi-viewer :structurelink=result.structurelink></attributeterm-viewer>
+                    </td>
                 </tr>
             </tbody>
         </table>
@@ -74,6 +79,18 @@
                 }
             },
             template: '<div>Exact Mass <input id="exactmass" type="float" name="exactmass"><br>PPM Tolerance <input id="toleranceppm" type="float" name="toleranceppm"><br><button  v-bind:class=classSelection v-on:click="clickMe()">Query</button></div>'
+        })
+
+        Vue.component('inchi-viewer', {
+            props: ['structurelink'],
+            data: function() {
+                return {
+                    urlPath: this.$props["structurelink"]
+                }
+            },
+            methods: {
+            },
+            template: '<img :src=structurelink ></img>'
         })
 
         var app4 = new Vue({

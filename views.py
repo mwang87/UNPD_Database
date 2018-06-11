@@ -3,7 +3,7 @@ from flask import abort, jsonify, render_template, request, redirect, url_for
 
 from app import app
 from models import *
-
+from urllib.parse import urlencode, quote_plus
 import json
 
 @app.route('/', methods=['GET'])
@@ -26,5 +26,10 @@ def resultspage():
     mass_tolerance = exactmass * ppm_tolerance / 1000000
     results = UNPDEntry.select().where(UNPDEntry.exactmass.between(exactmass - mass_tolerance, exactmass + mass_tolerance))
     all_entries_list = [entry.getDict() for entry in results]
+
+    for entry in all_entries_list:
+        #payload = {'inchi':entry["inchi"].encode("ascii", "ignore")}
+        #print(payload)
+        entry["structurelink"] = "http://ccms-support.ucsd.edu:5000/smilesstructure?inchi=%s" % (entry["inchi"])
 
     return json.dumps(all_entries_list)

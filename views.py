@@ -4,16 +4,9 @@ from flask import abort, jsonify, render_template, request, redirect, url_for
 from app import app
 from models import *
 import json
+import urllib
 
 @app.route('/', methods=['GET'])
-def homepage():
-    all_entries = UNPDEntry.select()
-    print(len(all_entries))
-    all_entries_list = [entry.getDict() for entry in all_entries]
-
-    return json.dumps(all_entries_list)
-
-@app.route('/querypage', methods=['GET'])
 def querypage():
     return render_template("query.html")
 
@@ -31,23 +24,32 @@ def resultspage():
     except:
         print("No ppm query")
 
+    
+
     common_name = request.args["common_name"]
     if len(common_name) > 0:
         db_query = db_query.where(UNPDEntry.common_name.contains(common_name) )
+
+
 
     molecular_formula = request.args["molecular_formula"]
     if len(molecular_formula) > 0:
         db_query = db_query.where(UNPDEntry.molecular_formula == molecular_formula )
 
-    if len(db_query) > MAX_DB_QUERY_RESULT:
-        db_query = db_query[:1000]
+
+
+    db_query = db_query.limit(MAX_DB_QUERY_RESULT)
+
+
 
 
     all_entries_list = [entry.getDict() for entry in db_query]
 
+
+
     for entry in all_entries_list:
-        #payload = {'inchi':entry["inchi"].encode("ascii", "ignore")}
-        #print(payload)
-        entry["structurelink"] = "http://ccms-support.ucsd.edu:5000/smilesstructure?inchi=%s" % (entry["inchi"])
+        entry["structurelink"] = "http://ccms-support.ucsd.edu:5000/smilesstructure?inchi=%s" % (urllib.quote_plus(entry["inchi"]))
+
+
 
     return json.dumps(all_entries_list)

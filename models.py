@@ -4,7 +4,7 @@ from peewee import *
 from app import db
 
 class UNPDEntry(Model):
-    accession = TextField(primary_key=True)
+    accession = TextField(unique=True)
     unpd_accession = TextField()
     common_name = TextField()
     inchi = TextField()

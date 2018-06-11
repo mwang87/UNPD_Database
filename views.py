@@ -24,7 +24,7 @@ def resultspage():
     except:
         print("No ppm query")
 
-    
+
 
     common_name = request.args["common_name"]
     if len(common_name) > 0:
@@ -48,7 +48,7 @@ def resultspage():
 
 
     for entry in all_entries_list:
-        entry["structurelink"] = "http://ccms-support.ucsd.edu:5000/smilesstructure?inchi=%s" % (urllib.quote_plus(entry["inchi"]))
+        entry["structurelink"] = "http://unpd.mingxunwang.com:5000/smilesstructure?inchi=%s" % (urllib.quote_plus(entry["inchi"]))
 
 
 
